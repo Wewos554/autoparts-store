@@ -63,3 +63,15 @@ button:hover {
 .success {
   color: green;
 }
+button.delete {
+  background-color: #e74c3c;
+}
+button.delete:hover {
+  background-color: #c0392b;
+}
+.card {
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: scale(1.01);
+}
