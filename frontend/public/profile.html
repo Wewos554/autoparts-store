@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Профиль - AutoParts Store</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/">Главная</a>
+      <a href="/profile">Профиль</a>
+      <a href="#" id="logoutBtn">Выйти</a>
+    </nav>
+    <h1>Профиль</h1>
+    <div id="userInfo"></div>
+    
+    <h2>Добавить новую запчасть</h2>
+    <form id="itemForm">
+      <input type="text" id="itemName" placeholder="Название" required>
+      <input type="text" id="itemBrand" placeholder="Бренд" required>
+      <input type="text" id="itemCategory" placeholder="Категория" required>
+      <input type="number" id="itemPrice" placeholder="Цена" required>
+      <input type="number" id="itemStock" placeholder="Количество на складе">
+      <input type="text" id="itemImage" placeholder="URL картинки (необязательно)">
+      <button type="submit">Добавить товар</button>
+    </form>
+
+    <h2>Список запчастей</h2>
+    <div id="itemsList"></div>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>

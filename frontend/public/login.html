@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Вход - AutoParts Store</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Вход в аккаунт</h1>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Пароль" required>
+      <div id="errorMessage" class="error"></div>
+      <button type="submit">Войти</button>
+    </form>
+    <p>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
