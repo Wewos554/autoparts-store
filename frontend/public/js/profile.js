@@ -100,8 +100,10 @@ if (itemForm) {
 const logoutBtn = document.getElementById('logoutBtn');
 if (logoutBtn) {
   logoutBtn.addEventListener('click', () => {
-    removeToken();
-    window.location.href = '/auth/login';
+    if (confirm('Вы уверены, что хотите выйти?')) {
+      removeToken();
+      window.location.href = '/auth/login';
+    }
   });
 }
 
