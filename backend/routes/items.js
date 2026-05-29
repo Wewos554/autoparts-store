@@ -4,6 +4,10 @@ const Item = require('../models/Item');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
+router.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 // Получить все товары (публично)
 router.get('/', async (req, res) => {
