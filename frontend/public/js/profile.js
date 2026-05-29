@@ -30,6 +30,11 @@ async function loadItems() {
 function renderItems(items) {
   const container = document.getElementById('itemsList');
   if (!container) return;
+if (items.length === 0) {
+  container.innerHTML = '<p>Нет добавленных товаров. Создайте первый!</p>';
+  return;
+}
+  if (!container) return;
   container.innerHTML = '';
   items.forEach(item => {
     const card = document.createElement('div');
