@@ -13,27 +13,37 @@
       <a href="/auth/register">Регистрация</a>
     </nav>
     <h1>Каталог автозапчасти</h1>
+    <input type="text" id="brandFilter" placeholder="Фильтр по бренду" style="width:200px; margin-bottom:20px;">
     <div id="itemsList"></div>
   </div>
   <script src="/js/common.js"></script>
   <script>
-    async function loadPublicItems() {
-      try {
-        const items = await apiRequest('/items');
-        const container = document.getElementById('itemsList');
-        container.innerHTML = items.map(item => `
-          <div class="card">
-            <h3>${item.name}</h3>
-            <p>Бренд: ${item.brand}</p>
-            <p>Категория: ${item.category}</p>
-            <p>Цена: ${item.price} ₽</p>
-          </div>
-        `).join('');
-      } catch(err) {
-        document.getElementById('itemsList').innerHTML = '<p>Ошибка загрузки товаров</p>';
-      }
+   async function loadPublicItems() {
+  try {
+    let items = await apiRequest('/items');
+    const brandFilter = document.getElementById('brandFilter').value.toLowerCase();
+    if (brandFilter) {
+      items = items.filter(item => item.brand.toLowerCase().includes(brandFilter));
     }
-    loadPublicItems();
+    const container = document.getElementById('itemsList');
+    if (items.length === 0) {
+      container.innerHTML = '<p>Товары не найдены</p>';
+      return;
+    }
+    container.innerHTML = items.map(item => `
+      <div class="card">
+        <h3>${item.name}</h3>
+        <p>Бренд: ${item.brand}</p>
+        <p>Категория: ${item.category}</p>
+        <p>Цена: ${item.price} ₽</p>
+      </div>
+    `).join('');
+  } catch(err) {
+    document.getElementById('itemsList').innerHTML = '<p>Ошибка загрузки товаров</p>';
+  }
+}
+document.getElementById('brandFilter').addEventListener('input', loadPublicItems);
+loadPublicItems();
   </script>
 </body>
 </html>
