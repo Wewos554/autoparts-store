@@ -1,4 +1,4 @@
-const API_BASE = 'autoparts-store-production.up.railway.app';
+const API_BASE = 'https://autoparts-store-production.up.railway.app/api';
 
 function getToken() {
   return localStorage.getItem('token');
@@ -34,6 +34,10 @@ function hideSpinner() {
   if (spinner) spinner.style.display = 'none';
 }
 
+function showError(message) {
+  alert('❌ Ошибка: ' + message);
+}
+
 async function apiRequest(url, options = {}) {
   const headers = {
     'Content-Type': 'application/json',
@@ -46,29 +50,31 @@ async function apiRequest(url, options = {}) {
 
   showSpinner();
   try {
-    const response = await fetch(API_BASE + url, {
+    const fullUrl = API_BASE + url;
+    console.log('Запрос к:', fullUrl);
+    
+    const response = await fetch(fullUrl, {
       ...options,
       headers
     });
 
-    // Обработка 401 (неавторизован)
+    console.log('Статус ответа:', response.status);
+
     if (response.status === 401) {
       removeToken();
       localStorage.removeItem('userName');
       if (!window.location.pathname.includes('/auth/login') && 
           !window.location.pathname.includes('/auth/register')) {
-        alert('Сессия истекла. Пожалуйста, войдите снова.');
+        showError('Сессия истекла. Пожалуйста, войдите снова.');
         window.location.href = '/auth/login';
       }
       throw new Error('Сессия истекла. Войдите снова.');
     }
 
-    // Обработка 404
     if (response.status === 404) {
       throw new Error('Запрашиваемые данные не найдены');
     }
 
-    // Обработка 500
     if (response.status === 500) {
       throw new Error('Ошибка сервера. Попробуйте позже.');
     }
@@ -79,19 +85,11 @@ async function apiRequest(url, options = {}) {
     }
     return data;
   } catch (err) {
-    // Показываем понятное сообщение пользователю
     let errorMessage = err.message;
-    
-    // Обработка ошибок сети (нет соединения)
     if (err.name === 'TypeError' && err.message.includes('fetch')) {
-      errorMessage = '❌ Нет соединения с сервером. Проверьте интернет и попробуйте снова.';
+      errorMessage = 'Нет соединения с сервером. Проверьте что бэкенд запущен: ' + API_BASE;
     }
-    
-    // Обработка ошибок парсинга JSON
-    if (err.message === 'Unexpected end of JSON input') {
-      errorMessage = '❌ Ошибка получения данных от сервера.';
-    }
-    
+    showError(errorMessage);
     throw new Error(errorMessage);
   } finally {
     hideSpinner();

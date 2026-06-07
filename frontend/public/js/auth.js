@@ -8,7 +8,6 @@ if (registerForm) {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('errorMessage');
 
-    // Клиентская валидация
     if (!name || !email || !password) {
       errorDiv.textContent = 'Заполните все поля';
       return;
@@ -23,12 +22,16 @@ if (registerForm) {
     }
 
     try {
-      await apiRequest('/auth/register', {
+      console.log('Отправка регистрации...');
+      const result = await apiRequest('/auth/register', {
         method: 'POST',
         body: JSON.stringify({ name, email, password })
       });
+      console.log('Регистрация успешна:', result);
+      alert('Регистрация успешна! Теперь войдите.');
       window.location.href = '/auth/login';
     } catch (err) {
+      console.error('Ошибка регистрации:', err);
       errorDiv.textContent = err.message;
     }
   });
@@ -49,14 +52,18 @@ if (loginForm) {
     }
 
     try {
+      console.log('Отправка логина...');
       const data = await apiRequest('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password })
       });
+      console.log('Логин успешен:', data);
       setToken(data.token);
       localStorage.setItem('userName', data.user.name);
+      alert('Вход выполнен!');
       window.location.href = '/profile';
     } catch (err) {
+      console.error('Ошибка логина:', err);
       errorDiv.textContent = err.message;
     }
   });
