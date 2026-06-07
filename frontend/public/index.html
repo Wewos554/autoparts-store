@@ -3,48 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>AutoParts Store - автозапчасти</title>
-  <meta name="description" content="Интернет-магазин автозапчастей AutoParts Store: каталог, фильтры, заказ.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <div class="container">
-    <nav>
-      <a href="/">Главная</a>
-      <a href="/auth/login">Войти</a>
-      <a href="/auth/register">Регистрация</a>
-    </nav>
-    <h1>Каталог автозапчасти</h1>
-    <input type="text" id="brandFilter" placeholder="Фильтр по бренду" style="width:200px; margin-bottom:20px;">
+    <nav id="global-nav"></nav>
+    <h1>Каталог автозапчастей</h1>
+    
+    <!-- Поиск -->
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="🔍 Поиск по названию или бренду">
+      
+      <!-- Фильтры -->
+      <select id="categoryFilter">
+        <option value="">Все категории</option>
+        <option value="Двигатель">Двигатель</option>
+        <option value="Тормозная система">Тормозная система</option>
+        <option value="Подвеска">Подвеска</option>
+        <option value="Электрика">Электрика</option>
+      </select>
+      
+      <input type="number" id="maxPrice" placeholder="Макс. цена">
+      
+      <!-- Сортировка -->
+      <select id="sortBy">
+        <option value="date">По дате (новые)</option>
+        <option value="priceAsc">Цена (по возрастанию)</option>
+        <option value="priceDesc">Цена (по убыванию)</option>
+      </select>
+      
+      <button id="applyFiltersBtn">Применить</button>
+    </div>
+    
     <div id="itemsList"></div>
+    
+    <!-- Пагинация -->
+    <div class="pagination">
+      <button id="loadMoreBtn" class="load-more">Загрузить ещё</button>
+    </div>
   </div>
+  
   <script src="/js/common.js"></script>
-  <script>
-   async function loadPublicItems() {
-  try {
-    let items = await apiRequest('/items');
-    const brandFilter = document.getElementById('brandFilter').value.toLowerCase();
-    if (brandFilter) {
-      items = items.filter(item => item.brand.toLowerCase().includes(brandFilter));
-    }
-    const container = document.getElementById('itemsList');
-    if (items.length === 0) {
-      container.innerHTML = '<p>Товары не найдены</p>';
-      return;
-    }
-    container.innerHTML = items.map(item => `
-      <div class="card">
-        <h3>${item.name}</h3>
-        <p>Бренд: ${item.brand}</p>
-        <p>Категория: ${item.category}</p>
-        <p>Цена: ${item.price} ₽</p>
-      </div>
-    `).join('');
-  } catch(err) {
-    document.getElementById('itemsList').innerHTML = '<p>Ошибка загрузки товаров</p>';
-  }
-}
-document.getElementById('brandFilter').addEventListener('input', loadPublicItems);
-loadPublicItems();
-  </script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/index.js"></script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Контакты - AutoParts Store</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav id="global-nav"></nav>
+    <h1>Свяжитесь с нами</h1>
+    <form id="contactForm">
+      <input type="text" id="contactName" placeholder="Ваше имя" required>
+      <input type="email" id="contactEmail" placeholder="Email" required>
+      <textarea id="contactMessage" rows="5" placeholder="Сообщение" required></textarea>
+      <div id="contactError" class="error"></div>
+      <button type="submit">Отправить</button>
+    </form>
+    <div style="margin-top: 30px;">
+      <p>📞 Телефон: +7 (999) 123-45-67</p>
+      <p>📧 Email: info@autoparts.ru</p>
+      <p>🏢 Адрес: г. Москва, ул. Автомобилистов, д. 15</p>
+    </div>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/nav.js"></script>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('contactName').value;
+      const email = document.getElementById('contactEmail').value;
+      const message = document.getElementById('contactMessage').value;
+      const errorDiv = document.getElementById('contactError');
+      
+      // Клиентская валидация
+      if (!name || !email || !message) {
+        errorDiv.textContent = 'Заполните все поля';
+        return;
+      }
+      if (!email.includes('@')) {
+        errorDiv.textContent = 'Введите корректный email';
+        return;
+      }
+      
+      try {
+        // Здесь можно отправить на бэкенд, но для демо показываем успех
+        errorDiv.style.color = 'green';
+        errorDiv.textContent = 'Сообщение отправлено! Мы свяжемся с вами.';
+        document.getElementById('contactForm').reset();
+        setTimeout(() => errorDiv.textContent = '', 3000);
+      } catch (err) {
+        errorDiv.textContent = 'Ошибка отправки';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Настройки - AutoParts Store</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav id="global-nav"></nav>
+    <h1>⚙️ Настройки профиля</h1>
+    <form id="settingsForm">
+      <input type="text" id="settingsName" placeholder="Имя" required>
+      <input type="email" id="settingsEmail" placeholder="Email" required>
+      <input type="password" id="settingsPassword" placeholder="Новый пароль (оставьте пустым, если не менять)">
+      <div id="settingsError" class="error"></div>
+      <button type="submit">Сохранить изменения</button>
+    </form>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/route-guard.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/settings.js"></script>
+</body>
+</html>

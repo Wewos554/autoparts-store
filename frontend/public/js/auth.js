@@ -8,12 +8,25 @@ if (registerForm) {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('errorMessage');
 
+    // Клиентская валидация
+    if (!name || !email || !password) {
+      errorDiv.textContent = 'Заполните все поля';
+      return;
+    }
+    if (password.length < 6) {
+      errorDiv.textContent = 'Пароль минимум 6 символов';
+      return;
+    }
+    if (!email.includes('@')) {
+      errorDiv.textContent = 'Введите корректный email';
+      return;
+    }
+
     try {
-      const result = await apiRequest('/auth/register', {
+      await apiRequest('/auth/register', {
         method: 'POST',
         body: JSON.stringify({ name, email, password })
       });
-      // Успех – перенаправляем на страницу входа
       window.location.href = '/auth/login';
     } catch (err) {
       errorDiv.textContent = err.message;
@@ -21,7 +34,7 @@ if (registerForm) {
   });
 }
 
-// Логин (если мы на странице входа)
+// Логин
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
@@ -30,12 +43,18 @@ if (loginForm) {
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('errorMessage');
 
+    if (!email || !password) {
+      errorDiv.textContent = 'Заполните все поля';
+      return;
+    }
+
     try {
       const data = await apiRequest('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password })
       });
       setToken(data.token);
+      localStorage.setItem('userName', data.user.name);
       window.location.href = '/profile';
     } catch (err) {
       errorDiv.textContent = err.message;
