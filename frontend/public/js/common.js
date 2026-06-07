@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = 'autoparts-store-production.up.railway.app';
 
 function getToken() {
   return localStorage.getItem('token');
